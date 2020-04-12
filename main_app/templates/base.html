@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Armor Collector</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+  <header class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper">
+        <ul>
+          <li><a href="{% url 'home' %}" class="left brand-logo">&nbsp;&nbsp;Link's Armor</a></li>
+        </ul>
+        <ul class="right">
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'material_create' %}">Add a Material</a></li>
+          <li><a href="{% url 'material_index' %}">View All Materials</a></li>
+          <li><a href="{% url 'new_armor' %}">Add to Armory</a></li>
+          <li><a href="{% url 'index' %}">My Armory</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <main class="container">
+    {% block content %}
+    {% endblock %}
+  </main>
+  <footer class="page-footer">
+    <div class="right">All Rights Reserved, &copy; 2020 Hero of Hyrule</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Armor Cache</h1>
+
+{% for armor in armor %}
+<div class="card">
+  <a href="{% url 'detail' armor.id %}">
+    <div class="card-content">
+      <span class="card-title">{{ armor.name }}</span>
+      <p>Function: {{ armor.function }}</p>
+      <p>Description: {{ armor.description }}</p>
+      {% if armor.ap > 10 %}
+        <p>Armor Protection: {{ armor.ap }}</p>
+      {% else %}
+        <p>Armor Protection: Too weak to use against Ganon</p>
+      {% endif %}
+    </div>
+  </a>
+</div>
+{% endfor %}
+
+{% endblock %}

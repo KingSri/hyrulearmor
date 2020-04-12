@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Armor</h1>
+
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ armor.name }}</span>
+        <p>Function: {{ armor.function }}</p>
+        <p>Description: {{ armor.description }}</p>
+        {% if armor.ap > 0 %}
+          <p>Armor Points: {{ armor.ap }}</p>
+        {% else %}
+          <p>Armor Points: Too weak to defeat Ganon</p>
+        {% endif %}
+      </div>
+
+      <div class="card-action">
+        <a href="{% url 'armor_update' armor.id %}">EDIT</a>
+        <a href="{% url 'armor_delete' armor.id %}">DELETE</a>
+      </div>
+
+    </div>
+  </div>
+  <div class="col s6">
+    <form action= "{% url 'add_time' armor.id %}" method="POST">
+      {% csrf_token %}
+      {{ wear_form.as_p }}
+      <input type="submit" class="btn" value="Add Time">
+    </form>
+
+    <br>
+    {% if armor.worn_today %}
+      <div class="card-panel teal-text center-align">{{armor.name}} has been worn and repaired</div>
+    {% else %}
+      <div class="card-panel red-text center-align">The {{armor.name}} is getting rusty. Perhaps I should wear it now...</div>
+    {% endif %}
+
+    <table class="striped">
+      <thead>
+        <tr><th>Date</th><th>Time</th></tr>
+      </thead>
+      <tbody>
+        {% for wear in armor.wear_set.all %}
+          <tr>
+            <td>{{wear.date}}</td>
+            <td>{{wear.get_time_display}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col s6">
+    <h3>The {{ armor.name }}'s materials.</h3>
+    {% if armor.material.count %}
+      {% for material in armor.material.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A <span style="color: {{ material.color }}">{{ material.color }}</span> {{ material.name }}.
+               {{ material.description }}
+            </span>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>No materials for upgrading. Ask a Great Fairy, then add a material.</h5>
+    {% endif %}
+  </div>
+  <!-- Available material will come after this line -->
+  <div class="col s6">
+  <h3>Available materials:</h3>
+  {% if material.count %}
+    {% for material in material.all %}
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">
+            A <span style="color: {{ material.color }}">{{ material.color }}</span> {{ material.name }}.
+            {{ material.description }}
+          </span>
+        </div>
+        <div class="card-action">
+          <form action="{% url 'assoc_material' armor.id material.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn">Add</button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <h5>The {{armor.name}} is already upgraded.</h5>
+  {% endif %}
+</div>
+</div>
+<script>
+  var dateEl = document.getElementById('id_date');
+  M.Datepicker.init(dateEl, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true
+  });
+
+  var selectEl = document.getElementById('id_time');
+  M.FormSelect.init(selectEl);
+</script>
+
+{% endblock %}
