@@ -18,5 +18,6 @@ urlpatterns = [
     path('material/create/', views.MaterialCreate.as_view(), name='material_create'),
     path('material/<int:pk>/update/', views.MaterialUpdate.as_view(), name='material_update'),
     path('material/<int:pk>/delete/', views.MaterialDelete.as_view(), name='material_delete'),
+    path('accounts/signup', views.signup, name='signup'),
 
 ]
